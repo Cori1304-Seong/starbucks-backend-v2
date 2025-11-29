@@ -17,10 +17,26 @@ api:
   version: v1
 
 spring:
-  profiles:
-    active: dev
   application:
     name: git-kkalnane-starbucks
+  datasource:
+    url: jdbc:postgresql://localhost:5432/starbucks
+    username: study_index_user
+    password: study_index_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      continue-on-error: true
 
 management:
   endpoints:
@@ -46,3 +62,17 @@ management:
 # PayCard 설정
 pay-card:
   init-amount: 500000
+
+# JWT 설정
+jwt:
+  member-secret: ${MEMBER_JWT_SECRET:starbucks-member-secret-key-for-jwt-token-generation-2024}
+  merchant-secret: ${MERCHANT_JWT_SECRET:starbucks-merchant-secret-key-for-jwt-token-generation-2024}
+  access-token-validity-in-milli-seconds: 3600000 # 1시간
+  refresh-token-validity-in-milli-seconds: 604800000 # 7일
+
+# CORS 설정
+cors:
+  allowed-origins: http://localhost:5173,http://localhost:5174
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
+  allowed-headers: "*"
+  max-age: 3600

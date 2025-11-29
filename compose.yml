@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: study_index_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: starbucks
+      POSTGRES_USER: study_index_user
+      POSTGRES_PASSWORD: study_index_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # sql/init.sql은 JPA가 테이블 생성 전에 실행되어 에러 발생
+      # Spring Boot의 spring.sql.init.data-locations로 실행하는 것을 권장
+      # - ./sql/init.sql:/docker-entrypoint-initdb.d/02-data.sql
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
