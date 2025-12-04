@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,18 +20,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDailyCounter {
 
-    @EmbeddedId
-    private OrderDailyCounterId id;
+	@EmbeddedId
+	private OrderDailyCounterId id;
 
-    @Column(name = "count", nullable = false)
-    private int count;
+	@Column(name = "count", nullable = false)
+	private int count;
 
-    public void increment() {
-        this.count++;
-    }
+	public void increment() {
+		this.count++;
+	}
 
-    public OrderDailyCounter(OrderDailyCounterId id, int count) {
-        this.id = id;
-        this.count = count;
-    }
+	@Version
+	@Column(nullable = false)
+	private Long version;
+
+	public OrderDailyCounter(OrderDailyCounterId id, int count) {
+		this.id = id;
+		this.count = count;
+	}
 }
