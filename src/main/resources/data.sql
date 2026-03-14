@@ -125,8 +125,8 @@ INSERT INTO stores (
 
 
 
-INSERT INTO order_daily_counters (date, store_id, count)
-SELECT CURRENT_DATE, s.id, 0
+INSERT INTO order_daily_counters (date, store_id, count, version)
+SELECT CURRENT_DATE, s.id, 0, 0
 FROM stores s
 WHERE NOT EXISTS (
     SELECT 1
